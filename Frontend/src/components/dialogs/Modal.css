@@ -5,7 +5,7 @@
   display: grid;
   place-items: center;
   padding: 16px;
-  background: rgba(43, 42, 61, 0.35);
+  background: var(--overlay);
   backdrop-filter: blur(3px);
 }
 
@@ -43,7 +43,7 @@
   padding: 9px 11px;
   border: 1px solid var(--border);
   border-radius: 10px;
-  background: #faf9ff;
+  background: var(--field);
   font-size: 15px;
   font-weight: normal;
   color: var(--text);

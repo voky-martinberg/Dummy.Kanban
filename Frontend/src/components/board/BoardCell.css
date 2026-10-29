@@ -12,7 +12,7 @@
 
 /* En uppgift dras över cellen. */
 .cell-over {
-  background: color-mix(in srgb, var(--col) 8%, white);
+  background: color-mix(in srgb, var(--col) 8%, var(--surface));
   box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--col) 50%, transparent);
 }
 

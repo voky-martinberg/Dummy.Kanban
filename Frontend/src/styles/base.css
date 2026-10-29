@@ -1,9 +1,16 @@
-/* Färger, typsnitt och grundstil. Komponenternas egna stilar ligger bredvid komponenterna. */
+/*
+ * Färger, typsnitt och grundstil. Komponenternas egna stilar ligger bredvid komponenterna.
+ * Temat styrs av data-theme på <html> (sätts i index.html och av useTheme).
+ */
 
 :root {
   --bg: #f6f4ff;
   --bg-accent: #fff4ec;
+  --bg-accent-2: #eaf6ff;
   --surface: #ffffff;
+  --field: #faf9ff;
+  --overlay: rgba(43, 42, 61, 0.35);
+  --error-bg: #fff1f1;
   --cell: rgba(255, 255, 255, 0.6);
   --cell-border: rgba(99, 102, 241, 0.08);
   --border: #e4e2f0;
@@ -26,6 +33,30 @@
   color-scheme: light;
 }
 
+:root[data-theme='dark'] {
+  --bg: #15141f;
+  --bg-accent: #241b30;
+  --bg-accent-2: #12202d;
+  --surface: #201f2e;
+  --field: #191825;
+  --overlay: rgba(0, 0, 0, 0.55);
+  --error-bg: rgba(242, 119, 123, 0.1);
+  --cell: rgba(255, 255, 255, 0.03);
+  --cell-border: rgba(165, 168, 255, 0.1);
+  --border: #35334b;
+  --text: #ebeaf5;
+  --muted: #9592b0;
+  --accent: #6d70f3;
+  --accent-hover: #9a9cf8;
+  --accent-soft: rgba(129, 140, 248, 0.16);
+  --danger: #f2777b;
+  --danger-soft: rgba(242, 119, 123, 0.14);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 6px 16px rgba(0, 0, 0, 0.45);
+
+  color-scheme: dark;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -35,7 +66,7 @@ body {
   min-height: 100vh;
   background:
     radial-gradient(circle at 0% 0%, var(--bg-accent) 0, transparent 45%),
-    radial-gradient(circle at 100% 100%, #eaf6ff 0, transparent 40%),
+    radial-gradient(circle at 100% 100%, var(--bg-accent-2) 0, transparent 40%),
     var(--bg);
   background-attachment: fixed;
 }
