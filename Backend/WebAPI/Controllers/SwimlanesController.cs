@@ -3,12 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using WebAPI.Data;
 using WebAPI.Dtos;
 using WebAPI.Models;
+using WebAPI.Services;
 
 namespace WebAPI.Controllers;
 
 [ApiController]
 [Route("api/swimlanes")]
-public class SwimlanesController(BoardDbContext db) : ControllerBase
+public class SwimlanesController(BoardDbContext db, EventLogClient eventLog) : ControllerBase
 {
     [HttpPost]
     public async Task<ActionResult<SwimlaneDto>> Create(NameRequest request)
@@ -19,6 +20,7 @@ public class SwimlanesController(BoardDbContext db) : ControllerBase
         var swimlane = new Swimlane { Name = request.Name.Trim(), Position = position };
         db.Swimlanes.Add(swimlane);
         await db.SaveChangesAsync();
+        await eventLog.LogAsync("swimlane.created", $"Swimlane \"{swimlane.Name}\" skapad", new { swimlane.Id });
 
         return new SwimlaneDto(swimlane.Id, swimlane.Name, swimlane.Position);
     }
@@ -31,8 +33,10 @@ public class SwimlanesController(BoardDbContext db) : ControllerBase
         var swimlane = await db.Swimlanes.FindAsync(id);
         if (swimlane is null) return NotFound();
 
+        var oldName = swimlane.Name;
         swimlane.Name = request.Name.Trim();
         await db.SaveChangesAsync();
+        await eventLog.LogAsync("swimlane.renamed", $"Swimlane \"{oldName}\" bytte namn till \"{swimlane.Name}\"", new { swimlane.Id });
 
         return new SwimlaneDto(swimlane.Id, swimlane.Name, swimlane.Position);
     }
@@ -47,6 +51,8 @@ public class SwimlanesController(BoardDbContext db) : ControllerBase
 
         foreach (var swimlane in swimlanes) swimlane.Position = request.Ids.IndexOf(swimlane.Id);
         await db.SaveChangesAsync();
+        var order = string.Join(", ", swimlanes.OrderBy(s => s.Position).Select(s => s.Name));
+        await eventLog.LogAsync("swimlane.reordered", $"Ny swimlane-ordning: {order}", new { request.Ids });
 
         return NoContent();
     }
@@ -58,8 +64,10 @@ public class SwimlanesController(BoardDbContext db) : ControllerBase
         var swimlane = await db.Swimlanes.FindAsync(id);
         if (swimlane is null) return NotFound();
 
+        var taskCount = await db.Tasks.CountAsync(t => t.SwimlaneId == id);
         db.Swimlanes.Remove(swimlane);
         await db.SaveChangesAsync();
+        await eventLog.LogAsync("swimlane.deleted", $"Swimlane \"{swimlane.Name}\" borttagen ({taskCount} uppgifter följde med)", new { swimlane.Id });
 
         var remaining = await db.Swimlanes.OrderBy(s => s.Position).ToListAsync();
         for (var i = 0; i < remaining.Count; i++) remaining[i].Position = i;

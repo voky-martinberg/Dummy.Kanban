@@ -1,4 +1,4 @@
-import type { Board, Section, Task, TaskFields } from './types'
+import type { Board, BoardEvent, Section, Task, TaskFields } from './types'
 
 async function request<T>(method: string, url: string, body?: unknown): Promise<T> {
   const res = await fetch(url, {
@@ -21,6 +21,7 @@ const sectionApi = (base: string) => ({
 
 export const api = {
   getBoard: () => request<Board>('GET', '/api/board'),
+  getEvents: () => request<BoardEvent[]>('GET', '/api/events'),
 
   columns: sectionApi('/api/columns'),
   swimlanes: sectionApi('/api/swimlanes'),

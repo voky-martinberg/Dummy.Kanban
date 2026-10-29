@@ -31,3 +31,4 @@ Migrationer körs automatiskt vid uppstart, i alla miljöer.
 - Bygg från `Dockerfile` i repots rot.
 - Containern lyssnar på port `8080` (http). Northflank sköter https framför den.
 - Miljövariabel: `ConnectionStrings__Board` = anslutningssträngen till Postgres, i formatet `Host=…;Port=…;Database=…;Username=…;Password=…`.
+- Miljövariabel (valfri): `EventLog__Url` = intern adress till händelseloggen (repot `kanban-eventlog`), t.ex. `http://<tjänstnamn>:3000`. Utan den loggas inga händelser och panelen visar att loggen inte nås.

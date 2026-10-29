@@ -4,6 +4,7 @@ import { Board } from './components/board/Board';
 import { NameDialog } from './components/dialogs/NameDialog';
 import { TaskDialog } from './components/dialogs/TaskDialog';
 import { EmptyState } from './components/layout/EmptyState';
+import { EventLog } from './components/layout/EventLog';
 import { ErrorBanner } from './components/layout/ErrorBanner';
 import { TopBar } from './components/layout/TopBar';
 import { useBoard } from './hooks/useBoard';
@@ -47,6 +48,8 @@ export default function App() {
       )}
 
       {hasColumns && <Board board={board} actions={actions} onOpenTask={(task) => setDialog({ type: 'task', task })} />}
+
+      <EventLog board={board} />
 
       {dialog?.type === 'section' && (
         <NameDialog

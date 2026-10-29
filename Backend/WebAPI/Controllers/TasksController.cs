@@ -3,12 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using WebAPI.Data;
 using WebAPI.Dtos;
 using WebAPI.Models;
+using WebAPI.Services;
 
 namespace WebAPI.Controllers;
 
 [ApiController]
 [Route("api/tasks")]
-public class TasksController(BoardDbContext db) : ControllerBase
+public class TasksController(BoardDbContext db, EventLogClient eventLog) : ControllerBase
 {
     [HttpPost]
     public async Task<ActionResult<TaskDto>> Create(CreateTaskRequest request)
@@ -28,6 +29,8 @@ public class TasksController(BoardDbContext db) : ControllerBase
         };
         db.Tasks.Add(task);
         await db.SaveChangesAsync();
+        await eventLog.LogAsync("task.created", $"Uppgift \"{task.Title}\" skapad i {await CellName(task.ColumnId, task.SwimlaneId)}",
+            new { task.Id, task.ColumnId, task.SwimlaneId });
 
         return ToDto(task);
     }
@@ -43,6 +46,7 @@ public class TasksController(BoardDbContext db) : ControllerBase
         task.Title = request.Title.Trim();
         task.Description = string.IsNullOrWhiteSpace(request.Description) ? null : request.Description.Trim();
         await db.SaveChangesAsync();
+        await eventLog.LogAsync("task.updated", $"Uppgift \"{task.Title}\" ändrad", new { task.Id });
 
         return ToDto(task);
     }
@@ -81,6 +85,14 @@ public class TasksController(BoardDbContext db) : ControllerBase
         }
 
         await db.SaveChangesAsync();
+
+        var to = await CellName(request.ColumnId, request.SwimlaneId);
+        var message = oldColumnId == request.ColumnId && oldSwimlaneId == request.SwimlaneId
+            ? $"Uppgift \"{task.Title}\" flyttad inom {to}"
+            : $"Uppgift \"{task.Title}\" flyttad från {await CellName(oldColumnId, oldSwimlaneId)} till {to}";
+        await eventLog.LogAsync("task.moved", message,
+            new { task.Id, FromColumnId = oldColumnId, FromSwimlaneId = oldSwimlaneId, request.ColumnId, request.SwimlaneId, task.Position });
+
         return ToDto(task);
     }
 
@@ -99,12 +111,22 @@ public class TasksController(BoardDbContext db) : ControllerBase
             .ToListAsync();
         for (var i = 0; i < rest.Count; i++) rest[i].Position = i;
         await db.SaveChangesAsync();
+        await eventLog.LogAsync("task.deleted", $"Uppgift \"{task.Title}\" borttagen från {await CellName(task.ColumnId, task.SwimlaneId)}",
+            new { task.Id });
 
         return NoContent();
     }
 
     private async Task<bool> CellExists(int columnId, int swimlaneId) =>
         await db.Columns.AnyAsync(c => c.Id == columnId) && await db.Swimlanes.AnyAsync(s => s.Id == swimlaneId);
+
+    /// <summary>"kolumn / swimlane", för händelseloggens meddelanden.</summary>
+    private async Task<string> CellName(int columnId, int swimlaneId)
+    {
+        var column = await db.Columns.Where(c => c.Id == columnId).Select(c => c.Name).FirstOrDefaultAsync();
+        var swimlane = await db.Swimlanes.Where(s => s.Id == swimlaneId).Select(s => s.Name).FirstOrDefaultAsync();
+        return $"{column} / {swimlane}";
+    }
 
     private static TaskDto ToDto(TaskItem t) => new(t.Id, t.Title, t.Description, t.ColumnId, t.SwimlaneId, t.Position);
 }

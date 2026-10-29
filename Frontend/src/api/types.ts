@@ -17,3 +17,6 @@ export type Task = {
 export type TaskFields = Pick<Task, 'title' | 'description' | 'columnId' | 'swimlaneId'>
 
 export type Board = { columns: Column[]; swimlanes: Swimlane[]; tasks: Task[] }
+
+/** En post i den interna händelseloggen (hämtas via backenden). */
+export type BoardEvent = { id: number; type: string; message: string; createdAt: string }

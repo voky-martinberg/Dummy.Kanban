@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using WebAPI.Data;
+using WebAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,14 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<BoardDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("Board")));
+
+// Intern händelselogg (EventLog:Url, t.ex. miljövariabeln EventLog__Url). Utan adress loggas inget.
+builder.Services.AddHttpClient<EventLogClient>(client =>
+{
+    var url = builder.Configuration["EventLog:Url"];
+    if (!string.IsNullOrWhiteSpace(url)) client.BaseAddress = new Uri(url.TrimEnd('/') + "/");
+    client.Timeout = TimeSpan.FromSeconds(3);
+});
 
 var app = builder.Build();
 
