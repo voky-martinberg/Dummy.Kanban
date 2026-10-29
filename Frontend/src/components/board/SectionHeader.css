@@ -1,0 +1,51 @@
+.column-header,
+.lane-header {
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  font-weight: 800;
+}
+
+.column-header {
+  padding: 10px 12px;
+  border-top: 4px solid var(--col);
+}
+
+.lane-header {
+  padding: 12px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: grab;
+}
+
+.header-name {
+  flex: 1;
+  overflow-wrap: anywhere;
+}
+
+.grip {
+  color: var(--border);
+  font-size: 12px;
+  letter-spacing: -1px;
+  transition: color 0.15s;
+}
+
+.header:hover .grip {
+  color: var(--muted);
+}
+
+/* Antal uppgifter i kolumnen. */
+.count {
+  min-width: 22px;
+  padding: 0 7px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--col) 14%, transparent);
+  color: var(--col);
+  font-size: 12px;
+  font-weight: 800;
+  text-align: center;
+}

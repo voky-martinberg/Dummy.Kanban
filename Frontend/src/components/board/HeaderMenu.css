@@ -1,0 +1,79 @@
+.menu {
+  position: relative;
+}
+
+/* Knappen syns när man håller över rubriken, har fokus eller menyn är öppen. */
+.menu-button {
+  padding: 0 7px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 18px;
+  line-height: 1.2;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s, background 0.15s;
+}
+
+.header:hover .menu-button,
+.menu-open .menu-button,
+.menu-button:focus-visible {
+  opacity: 1;
+}
+
+.menu-button:hover,
+.menu-open .menu-button {
+  background: var(--accent-soft);
+  color: var(--accent-hover);
+}
+
+/* top/right sätts inline utifrån knappens position (se HeaderMenu.tsx). */
+.menu-list {
+  position: fixed;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  min-width: 180px;
+  padding: 6px;
+  border-radius: 12px;
+  background: var(--surface);
+  box-shadow: var(--shadow-md), 0 0 0 1px var(--border);
+  font-weight: 600;
+}
+
+.menu-list button {
+  padding: 7px 10px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.menu-list button:hover:not(:disabled) {
+  background: var(--accent-soft);
+  color: var(--accent-hover);
+}
+
+.menu-list button:disabled {
+  color: var(--muted);
+  opacity: 0.5;
+  cursor: default;
+}
+
+.menu-list button.danger {
+  color: var(--danger);
+}
+
+.menu-list button.danger:hover {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.menu-list hr {
+  width: 100%;
+  margin: 4px 0;
+  border: none;
+  border-top: 1px solid var(--border);
+}

@@ -1,0 +1,76 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(43, 42, 61, 0.35);
+  backdrop-filter: blur(3px);
+}
+
+.dialog {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: min(500px, 100%);
+  padding: 24px;
+  border-radius: 18px;
+  background: var(--surface);
+  box-shadow: 0 20px 50px rgba(43, 42, 61, 0.25);
+}
+
+.dialog h2 {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 800;
+}
+
+/* Fält: etikett ovanför, fältet under. */
+.dialog label {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 5px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.dialog input,
+.dialog textarea,
+.dialog select {
+  padding: 9px 11px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #faf9ff;
+  font-size: 15px;
+  font-weight: normal;
+  color: var(--text);
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.dialog input:focus,
+.dialog textarea:focus,
+.dialog select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+/* Flera fält bredvid varandra. */
+.dialog-row {
+  display: flex;
+  gap: 12px;
+}
+
+.dialog-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.dialog-actions .spacer {
+  flex: 1;
+}

@@ -1,0 +1,66 @@
+/* Knappar och fält som används på flera ställen. */
+
+.btn {
+  padding: 7px 14px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  font-weight: 700;
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, transform 0.05s;
+}
+
+.btn:hover {
+  background: var(--accent-soft);
+  color: var(--accent-hover);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+  transform: none;
+}
+
+.btn-outline {
+  border-color: var(--border);
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: var(--accent-hover);
+  color: #fff;
+}
+
+.btn-primary:disabled:hover {
+  background: var(--accent);
+}
+
+.btn-danger {
+  border-color: rgba(229, 72, 77, 0.4);
+  color: var(--danger);
+}
+
+.btn-danger:hover {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+/* Textfält direkt i tavlan (ny uppgift, byt namn). */
+.inline-input {
+  width: 100%;
+  padding: 7px 10px;
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+  outline: none;
+}

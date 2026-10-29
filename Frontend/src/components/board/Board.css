@@ -1,0 +1,31 @@
+.board-scroll {
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.board {
+  display: grid;
+  gap: 10px;
+  align-items: stretch;
+  min-width: min-content;
+}
+
+/*
+ * Ändra ordning: under dragningen visas tavlan i den nya ordningen direkt. Den kolumn/rad
+ * som dras (rubrik och celler) visas som en streckad "plats" där den kommer att hamna.
+ */
+.board-reordering .card,
+.board-reordering .add-button {
+  pointer-events: none;
+}
+
+.reorder-source {
+  background: var(--accent-soft);
+  box-shadow: none;
+  outline: 2px dashed color-mix(in srgb, var(--accent) 55%, transparent);
+  outline-offset: -2px;
+}
+
+.reorder-source > * {
+  opacity: 0.35;
+}

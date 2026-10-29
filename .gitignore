@@ -1,0 +1,16 @@
+# Frontend
+node_modules/
+dist/
+*.local
+
+# Backend (.NET build output and Visual Studio files)
+bin/
+obj/
+.vs/
+*.user
+*.suo
+
+# Editors and OS
+.vscode/
+.idea/
+.DS_Store

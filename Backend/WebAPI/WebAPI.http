@@ -1,0 +1,34 @@
+@WebAPI_HostAddress = http://localhost:5265
+
+GET {{WebAPI_HostAddress}}/api/board
+Accept: application/json
+
+###
+
+POST {{WebAPI_HostAddress}}/api/columns
+Content-Type: application/json
+
+{ "name": "Backlog" }
+
+###
+
+POST {{WebAPI_HostAddress}}/api/swimlanes
+Content-Type: application/json
+
+{ "name": "Allmänt" }
+
+###
+
+POST {{WebAPI_HostAddress}}/api/tasks
+Content-Type: application/json
+
+{ "title": "Första uppgiften", "columnId": 1, "swimlaneId": 1 }
+
+###
+
+PUT {{WebAPI_HostAddress}}/api/tasks/1/move
+Content-Type: application/json
+
+{ "columnId": 1, "swimlaneId": 1, "position": 0 }
+
+###

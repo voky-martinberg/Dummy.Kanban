@@ -1,0 +1,47 @@
+.card {
+  position: relative;
+  padding: 10px 12px 10px 14px;
+  border-radius: 10px;
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  cursor: grab;
+  user-select: none;
+  transition: box-shadow 0.15s, transform 0.15s;
+}
+
+/* Liten färgstrimma i kolumnens färg (--col sätts på cellen). */
+.card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: var(--col);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.card-dragging {
+  opacity: 0.4;
+}
+
+.card-title {
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.card-description {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 13px;
+  white-space: pre-line;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

@@ -1,0 +1,27 @@
+.cell {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 110px;
+  padding: 10px;
+  border-radius: var(--radius);
+  background: var(--cell);
+  border: 1px solid var(--cell-border);
+  transition: background 0.15s, box-shadow 0.15s;
+}
+
+/* En uppgift dras över cellen. */
+.cell-over {
+  background: color-mix(in srgb, var(--col) 8%, white);
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--col) 50%, transparent);
+}
+
+.cell:hover .add-button {
+  opacity: 1;
+}
+
+.drop-marker {
+  height: 4px;
+  border-radius: 2px;
+  background: var(--col, var(--accent));
+}

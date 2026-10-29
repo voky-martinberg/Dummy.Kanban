@@ -1,0 +1,21 @@
+.add-button {
+  width: 100%;
+  margin-top: auto;
+  padding: 6px 8px;
+  border: 1px dashed transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.15s, background 0.15s, border-color 0.15s;
+}
+
+.add-button:hover {
+  opacity: 1;
+  border-color: var(--border);
+  background: var(--surface);
+  color: var(--text);
+}
