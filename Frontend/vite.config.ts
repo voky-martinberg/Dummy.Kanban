@@ -4,7 +4,7 @@ import { defineConfig } from 'vite';
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/employee/it-lab/',
+  // base: '/employee/it-lab/',
   server: {
     // Skicka /api vidare till ASP.NET-backenden (http-profilen i launchSettings.json).
     proxy: {
